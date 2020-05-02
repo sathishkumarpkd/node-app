@@ -9,6 +9,14 @@ pipeline{
                 sh "docker build . -t sathishkumarpkd/node-app:${DOCKER_TAG}"
             }
         }
+         stage("Push docker image"){
+            steps{
+                withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerhubpwd')]) {
+                     sh "docker login -u sathishkumarpkd -p ${dockerhubpwd}"
+                     sh "docker push sathishkumarpkd/node-app:${DOCKER_TAG}"
+                }
+            }
+        }
     }
 }
 
